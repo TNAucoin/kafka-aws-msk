@@ -8,7 +8,7 @@ variable "aws_region" {
   description = "AWS Region for deployment"
 }
 
-variable "aws_profile" {
+variable "AWS_PROFILE" {
   description = "AWS profile for deployment"
 }
 
