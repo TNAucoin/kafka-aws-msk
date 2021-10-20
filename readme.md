@@ -6,6 +6,7 @@ TF_VAR_terraform_deployment_bucket=<bucket name for terraform deployments>
 TF_VAR_profile=<profile name for aws cli>
 TF_VAR_region=<aws region to deploy to>
 TF_VAR_ip=<computer's local ip>
+TF_VAR_ecs_key_name=<ec2 key pem name>
 ```
 
 Deployment Process:
