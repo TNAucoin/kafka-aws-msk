@@ -89,30 +89,24 @@ EOF_CONFIG
 EOF
 }
 
-module "es-ecs-asg" {
-  source        = "terraform-aws-modules/autoscaling/aws"
-  name          = "es-ecs-auto-scaling-group"
-  image_id      = var.ecs_image_id
-  instance_type = var.ecs_instance_type
-  key_name      = var.ecs_key_name
-
-  # Launch configuration
-  lc_name                     = "es-ecs-launch-configuration"
-  create_lc                   = true
+resource "aws_launch_configuration" "es-asg-config" {
+  image_id                    = var.ecs_image_id
+  key_name                    = var.ecs_key_name
+  instance_type               = var.ecs_instance_type
   associate_public_ip_address = false
-  iam_instance_profile        = aws_iam_instance_profile.es-ecs-instance.id
-  vpc_zone_identifier         = var.subnet_ids
+  iam_instance_profile        = aws_iam_instance_profile.es-ecs-instance.name
   user_data                   = data.template_file.es-ecs.rendered
+  security_groups             = [aws_security_group.es-ecs.id]
+}
 
-  security_groups = [
-    aws_security_group.es-ecs.id
-  ]
-
+resource "aws_autoscaling_group" "es-ecs-asg" {
+  name = "es-ecs-auto-scaling-group"
   # Auto scaling group
-  asg_name                  = "es-ecs-auto-scaling-group"
   health_check_type         = "EC2"
   min_size                  = var.ecs_min_size
   desired_capacity          = var.ecs_desired_capacity
   max_size                  = var.ecs_max_size
   wait_for_capacity_timeout = 0
+  launch_configuration      = aws_launch_configuration.es-asg-config.name
+  vpc_zone_identifier       = var.subnet_ids
 }

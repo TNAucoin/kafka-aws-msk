@@ -7,7 +7,7 @@ resource "aws_security_group" "es-ecs" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [aws_security_group.kad-ecs-application-lb.id]
+    security_groups = [aws_security_group.es-ecs-application-lb.id]
     description     = "Application Load Balancer"
   }
 
