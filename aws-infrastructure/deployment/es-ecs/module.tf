@@ -20,7 +20,7 @@ data "terraform_remote_state" "es-msk" {
 
 module "es-ecs" {
   source                    = "../../modules/es-ecs"
-  msk_bootstrap_brokers     = data.terraform_remote_state.es-msk.outputs.bootstrap-brokers
+  msk_bootstrap_brokers     = data.terraform_remote_state.es-msk.outputs.msk-bootstrap-brokers
   machine_public_ip_address = var.machine_public_ip_address
   vpc_id                    = data.terraform_remote_state.es-vpc.outputs.es-vpc
   subnet_ids                = ["${data.terraform_remote_state.es-vpc.outputs.es-public-subnet-a}", "${data.terraform_remote_state.es-vpc.outputs.es-public-subnet-b}", "${data.terraform_remote_state.es-vpc.outputs.es-public-subnet-c}"]

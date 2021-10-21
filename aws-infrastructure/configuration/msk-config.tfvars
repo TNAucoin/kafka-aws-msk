@@ -1,4 +1,4 @@
-msk_configuration_name = "es-msk-cluster-00"
+msk_configuration_name = "es-msk-cluster-01"
 
 #MSK
 msk_instance_type              = "kafka.m5.large"
