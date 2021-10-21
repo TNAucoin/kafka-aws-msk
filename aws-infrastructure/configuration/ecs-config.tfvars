@@ -2,12 +2,12 @@
 /*
 Amazon ECS-optimized AMI. (https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
 */
-ecs_image_id = "ami-0a4cbf3bd47ef1bc9"
+ecs_image_id = "ami-0eba366342cb1dfda"
 
 
 #ECS
 ecs_cluster_name               = "es-ecs"
-ecs_instance_type              = "t2.micro"
+ecs_instance_type              = "t2.xlarge"
 ecs_desired_capacity           = 2
 ecs_min_size                   = 1
 ecs_max_size                   = 2

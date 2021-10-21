@@ -1,7 +1,7 @@
 include .env
 
 deployEs: deployvpc deploymsk deployecs
-destroyEs: destroymsk destroyvpc 
+destroyEs: destroyecs destroymsk destroyvpc 
 
 define setup_env
         $(eval ENV_FILE := .env)
@@ -43,4 +43,11 @@ deployecs:
 	rm -rf aws-infrastructure/deployment/kad-ecs/.terraform
 	(cd aws-infrastructure/deployment/es-ecs; terraform init -backend-config="bucket=${TF_VAR_terraform_deployment_bucket}" -backend-config="region=${TF_VAR_region}" -backend-config="profile=${TF_VAR_profile}")
 	(cd aws-infrastructure/deployment/es-ecs; terraform apply -auto-approve -var-file="../../configuration/ecs-config.tfvars" -var="ecs_key_name=${TF_VAR_ecs_key_name}" -var="terraform_deployment_bucket=${TF_VAR_terraform_deployment_bucket}" -var="aws_profile=${TF_VAR_profile}" -var="aws_region=${TF_VAR_region}" -var="machine_public_ip_address=${TF_VAR_ip}")
+	rm -rf aws-infrastructure/deployment/kad-ecs/.terraform
+
+destroyecs:
+	@echo Initializing ECS
+	rm -rf aws-infrastructure/deployment/kad-ecs/.terraform
+	(cd aws-infrastructure/deployment/es-ecs; terraform init -backend-config="bucket=${TF_VAR_terraform_deployment_bucket}" -backend-config="region=${TF_VAR_region}" -backend-config="profile=${TF_VAR_profile}")
+	(cd aws-infrastructure/deployment/es-ecs; terraform destroy -auto-approve -var-file="../../configuration/ecs-config.tfvars" -var="ecs_key_name=${TF_VAR_ecs_key_name}" -var="terraform_deployment_bucket=${TF_VAR_terraform_deployment_bucket}" -var="aws_profile=${TF_VAR_profile}" -var="aws_region=${TF_VAR_region}" -var="machine_public_ip_address=${TF_VAR_ip}")
 	rm -rf aws-infrastructure/deployment/kad-ecs/.terraform
