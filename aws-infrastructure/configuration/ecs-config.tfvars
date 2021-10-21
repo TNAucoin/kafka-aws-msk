@@ -16,6 +16,7 @@ image_kafka_schema_registry_ui = "landoop/schema-registry-ui:0.9.4"
 image_kafka_connect            = "debezium/connect:0.9"
 image_kafka_connect_ui         = "landoop/kafka-connect-ui"
 image_kafka_rest_api           = "confluentinc/cp-kafka-rest:latest"
+image_kafka_control_center     = "confluentinc/cp-enterprise-control-center:6.2.1"
 
 ecs_container_kafka_schema_registry_port = 8081
 ecs_host_kafka_schema_registry_port      = 8081
@@ -35,3 +36,6 @@ ecs_alb_kafka_rest_api_port       = 9002
 ecs_container_kafka_rest_api_port = 8082
 ecs_host_kafka_rest_api_port      = 8082
 
+ecs_alb_kafka_control_center_port       = 9003
+ecs_container_kafka_control_center_port = 9021
+ecs_host_kafka_control_center_port      = 9021

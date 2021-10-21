@@ -50,11 +50,16 @@ module "es-ecs" {
   ecs_container_kafka_rest_api_port = var.ecs_container_kafka_rest_api_port
   ecs_host_kafka_rest_api_port      = var.ecs_host_kafka_rest_api_port
 
+  ecs_alb_kafka_control_center_port       = var.ecs_alb_kafka_control_center_port
+  ecs_container_kafka_control_center_port = var.ecs_container_kafka_control_center_port
+  ecs_host_kafka_control_center_port      = var.ecs_host_kafka_control_center_port
+
 
   image_kafka_schema_registry    = var.image_kafka_schema_registry
   image_kafka_schema_registry_ui = var.image_kafka_schema_registry_ui
   image_kafka_connect            = var.image_kafka_connect
   image_kafka_connect_ui         = var.image_kafka_connect_ui
   image_kafka_rest_api           = var.image_kafka_rest_api
+  image_kafka_control_center     = var.image_kafka_control_center
 
 }

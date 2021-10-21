@@ -1,3 +1,59 @@
+resource "aws_ecs_task_definition" "es-ecs-kafka-control-center" {
+  family                   = "es-ecs-kafka-control-center"
+  network_mode             = "bridge"
+  requires_compatibilities = []
+  tags                     = {}
+  container_definitions = jsonencode(
+    [
+      {
+        name : "es-ecs-kafka-control-center"
+        container_name : "es-ecs-kafka-control-center"
+        cpu         = 0
+        image       = var.image_kafka_control_center
+        essential   = true
+        mountPoints = []
+        volumesFrom = []
+        memoryReservation : 1024
+        portMappings : [
+          {
+            containerPort = var.ecs_container_kafka_control_center_port
+            hostPort      = var.ecs_host_kafka_control_center_port
+            protocol      = "tcp"
+          }
+        ]
+        environment : [
+          {
+            name  = "CONTROL_CENTER_BOOTSTRAP_SERVERS"
+            value = "${var.msk_bootstrap_brokers}"
+          },
+          {
+            name  = "CONTROL_CENTER_SCHEMA_REGISTRY_URL"
+            value = "http://es-kafka-schema-registry.ecs.local:${var.ecs_container_kafka_schema_registry_port}"
+          },
+          {
+            name  = "CONTROL_CENTER_REPLICATION_FACTOR"
+            value = "1"
+          },
+          {
+            name  = "CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS"
+            value = "1"
+          },
+          {
+            name  = "CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS"
+            value = "1"
+          },
+          {
+            name  = "CONFLUENT_METRICS_TOPIC_REPLICATION"
+            value = "1"
+          },
+          {
+            name  = "CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER"
+            value = "http://es-kafka-connect.ecs.local:${var.ecs_container_kafka_connect_port}"
+          }
+        ]
+      }
+  ])
+}
 resource "aws_ecs_task_definition" "es-kafka-schema-registry" {
   family                   = "es-kafka-schema-registry"
   network_mode             = "awsvpc"
@@ -8,8 +64,8 @@ resource "aws_ecs_task_definition" "es-kafka-schema-registry" {
       {
         name : "es-kafka-schema-registry"
         container_name : "es-kafka-schema-registry"
-        cpu = 0
-        image = var.image_kafka_schema_registry
+        cpu         = 0
+        image       = var.image_kafka_schema_registry
         essential   = true
         mountPoints = []
         volumesFrom = []
@@ -23,7 +79,7 @@ resource "aws_ecs_task_definition" "es-kafka-schema-registry" {
         ],
         environment = [
           {
-            name = "SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS"
+            name  = "SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS"
             value = "PLAINTEXT://${var.msk_bootstrap_brokers}"
           },
           {
@@ -64,7 +120,7 @@ resource "aws_ecs_task_definition" "es-kafka-connect" {
         ],
         environment = [
           {
-            name = "BOOTSTRAP_SERVERS"
+            name  = "BOOTSTRAP_SERVERS"
             value = var.msk_bootstrap_brokers
           },
           {
@@ -113,7 +169,7 @@ resource "aws_ecs_task_definition" "es-kafka-connect" {
 }
 
 resource "aws_ecs_task_definition" "es-ecs-kafka-schema-registry-ui" {
-  family = "es-ecs-kafka-schema-registry-ui"
+  family                   = "es-ecs-kafka-schema-registry-ui"
   network_mode             = "bridge"
   requires_compatibilities = []
   tags                     = {}
@@ -150,7 +206,7 @@ resource "aws_ecs_task_definition" "es-ecs-kafka-schema-registry-ui" {
 }
 
 resource "aws_ecs_task_definition" "es-ecs-kafka-connect-ui" {
-  family = "es-ecs-kafka-connect-ui"
+  family                   = "es-ecs-kafka-connect-ui"
   network_mode             = "bridge"
   requires_compatibilities = []
   tags                     = {}
@@ -212,7 +268,7 @@ resource "aws_ecs_task_definition" "es-ecs-kafka-rest-api" {
         ],
         environment = [
           {
-            name = "KAFKA_REST_BOOTSTRAP_SERVERS"
+            name  = "KAFKA_REST_BOOTSTRAP_SERVERS"
             value = "PLAINTEXT://${var.msk_bootstrap_brokers}"
           },
           {

@@ -93,6 +93,18 @@ variable "ecs_host_kafka_rest_api_port" {
   description = "kafka rest api access (ECS Host)"
 }
 
+variable "ecs_alb_kafka_control_center_port" {
+  description = "Confluent Control Center port (Load balancer)"
+}
+
+variable "ecs_container_kafka_control_center_port" {
+  description = "Confluent Control Center port (ECS Container)"
+}
+
+variable "ecs_host_kafka_control_center_port" {
+  description = "Confluent Control Center port (ECS host)"
+}
+
 variable "image_kafka_schema_registry" {
   description = "Docker image for Schema Registry"
 }
@@ -111,4 +123,8 @@ variable "image_kafka_connect_ui" {
 
 variable "image_kafka_rest_api" {
   description = "Docker image for Kafka Rest API"
+}
+
+variable "image_kafka_control_center" {
+  description = "Docker image for Kafka Confluent Control Center"
 }

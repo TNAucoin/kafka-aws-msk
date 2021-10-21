@@ -82,3 +82,18 @@ resource "aws_ecs_service" "es-ecs-kafka-rest-api" {
     container_port   = var.ecs_container_kafka_rest_api_port
   }
 }
+
+resource "aws_ecs_service" "es-ecs-kafka-control-center" {
+  cluster             = aws_ecs_cluster.es-ecs.id
+  desired_count       = 1
+  launch_type         = "EC2"
+  name                = "es-ecs-kafka-control-center"
+  scheduling_strategy = "REPLICA"
+  task_definition     = aws_ecs_task_definition.es-ecs-kafka-control-center.arn
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.es-ecs-kafka-control-center.arn
+    container_name   = "es-ecs-kafka-control-center"
+    container_port   = var.ecs_container_kafka_control_center_port
+  }
+}
