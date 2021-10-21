@@ -1,7 +1,7 @@
 include .env
 
 deployEs: deployvpc deploymsk deployecs
-destroyEs: destroyecs destroymsk destroyvpc 
+destroyEs: destroymsk destroyvpc 
 
 define setup_env
         $(eval ENV_FILE := .env)
